@@ -2,7 +2,7 @@ import random
 
 import config
 from ga.main_ga import genetic_algorithm
-from program.generator import Program
+from program.generator import Program, generate_random_program
 
 
 def save_to_file(filename: str, final_program: Program):
@@ -21,11 +21,16 @@ def main():
     #     print(f"key: {key}, val: {val}")
     # return
 
-    seed_number = input("Input seed number: ")
-    seed_offset = int(seed_number)
-    random.seed(seed_offset)
+    # seed_number = input("Input seed number: ")
+    # seed_offset = int(seed_number)
+    # random.seed(seed_offset)
+    # genetic_algorithm()
 
-    genetic_algorithm()
+    random_program = generate_random_program(32)
+    asm_program = random_program.to_assembly()
+
+    for ins in asm_program:
+        print(ins)
 
 
 if __name__ == "__main__":
