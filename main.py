@@ -1,6 +1,6 @@
 import random
 
-import config
+from testing import test
 from ga.main_ga import genetic_algorithm
 from program.generator import Program, generate_random_program
 
@@ -25,12 +25,7 @@ def main():
     # seed_offset = int(seed_number)
     # random.seed(seed_offset)
     # genetic_algorithm()
-
-    random_program = generate_random_program(32)
-    asm_program = random_program.to_assembly()
-
-    for ins in asm_program:
-        print(ins)
+    test.check_asm_program()
 
 
 if __name__ == "__main__":

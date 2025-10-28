@@ -7,8 +7,8 @@ import random
 
 
 class BaseVectorIns(BaseInstruction, ABC):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
     @abstractmethod
     def generate(self) -> str:
@@ -16,8 +16,8 @@ class BaseVectorIns(BaseInstruction, ABC):
 
 
 class IntegerArithmeticIns(BaseVectorIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.des = utils.random_value.random_register("v")
         self.src2 = utils.random_value.random_register("v")
@@ -36,8 +36,8 @@ class IntegerArithmeticIns(BaseVectorIns):
 
 
 class LoadsStores(BaseVectorIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.des = f"v{random.randint(0, 31)}"
         self.src2 = f"v{random.randint(0, 31)}"
@@ -49,8 +49,8 @@ class LoadsStores(BaseVectorIns):
 
 
 class ConfigurationSetting(BaseVectorIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.des = f"x{random.randint(0, 31)}"
         if len(name) <= 7:

@@ -6,8 +6,8 @@ from rv_instructions.v_extension.base_vector import LoadsStores
 
 
 class UnitStride(LoadsStores):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
     def generate(self) -> str:
         ins: str = ""
@@ -21,8 +21,8 @@ class UnitStride(LoadsStores):
 
 
 class Strided(LoadsStores):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.src2 = f"x{random.randint(0, 31)}"
 
@@ -37,8 +37,8 @@ class Strided(LoadsStores):
 
 
 class Indexed(LoadsStores):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         # self.src2 = f"v{random.randint(0, 31)}"
 
@@ -53,8 +53,8 @@ class Indexed(LoadsStores):
 
 
 class UnitStrideFaultOnlyFirstLoads(LoadsStores):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
     def generate(self) -> str:
         ins: str = ""
@@ -68,8 +68,8 @@ class UnitStrideFaultOnlyFirstLoads(LoadsStores):
 
 
 class LoadStoreSegment(LoadsStores):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.src1 = f"x{random.randint(0, 31)}"
         self.nf = f"{random.randint(2, 8)}"
@@ -113,8 +113,8 @@ class LoadStoreSegment(LoadsStores):
 
 
 class LoadStoreWholeRegister(LoadsStores):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.mew = f"{random.choice([1, 2, 4, 8])}"
         self.width = f"{random.choice([8, 16, 32, 64])}"

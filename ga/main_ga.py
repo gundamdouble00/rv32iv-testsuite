@@ -45,10 +45,8 @@ def save_to_file_test(filename: str, programs: list[Program]):
 
 
 def initialization(population: list[Program]):
-    length = random.randint(config.MIN_PROGRAM_LENGTH, config.MAX_PROGRAM_LENGTH)
-
     for _ in range(config.POPULATION_SIZE):
-        new_program = generate_random_program(length)
+        new_program = generate_random_program(config.PROGRAM_LEN)
         population.append(new_program)
 
 

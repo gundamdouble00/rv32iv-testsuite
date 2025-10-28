@@ -5,36 +5,35 @@ from rv_instructions.v_extension.base_vector import IntegerArithmeticIns
 
 
 class SingleWidthIntegerAddSub(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
 
 class BitwiseLogical(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
 
 class SingleWidthShift(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
-
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
         if name[len(name) - 1] == "i":
             self.src1 = f"{random.randint(0, 31)}"
 
 
 class IntegerCompare(IntegerArithmeticIns):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
 
 class MinMax(IntegerArithmeticIns):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
 
 class IntegerMerge(IntegerArithmeticIns):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         len_of_name: int = len(name)
         self.src1 = utils.random_value.random_src1(name[len_of_name - 2], -16, 15)
@@ -46,8 +45,8 @@ class IntegerMerge(IntegerArithmeticIns):
 
 
 class IntegerMove(IntegerArithmeticIns):
-    def __init__(self, name):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         len_of_name: int = len(name)
         self.src1 = utils.random_value.random_src1(name[len_of_name - 1], -16, 15)
@@ -57,8 +56,8 @@ class IntegerMove(IntegerArithmeticIns):
 
 
 class WideningIntegerAddSubtract(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.random_v_reg = random.randint(0, 31)
         self.des = f"v{self.random_v_reg}"
@@ -77,8 +76,8 @@ class WideningIntegerAddSubtract(IntegerArithmeticIns):
 
 
 class VectorIntegerExtension(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
     def generate(self) -> str:
         ins: str = ""
@@ -92,8 +91,8 @@ class VectorIntegerExtension(IntegerArithmeticIns):
 
 
 class NarrowingIntegerRightShift(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
         self.src1 = utils.random_value.random_src1(name[len(name) - 1], 0, 31)
 
     def generate(self):
@@ -108,18 +107,18 @@ class NarrowingIntegerRightShift(IntegerArithmeticIns):
 
 
 class SingleWidthIntegerMultiply(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
 
 class IntegerDivide(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
 
 class WideningIntegerMultiply(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.random_v_reg = random.randint(0, 31)
         self.des = f"v{self.random_v_reg}"
@@ -138,8 +137,8 @@ class WideningIntegerMultiply(IntegerArithmeticIns):
 
 
 class SingleWidthIntegerMultiplyAdd(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
     def generate(self) -> str:
         ins: str = ""
@@ -153,8 +152,8 @@ class SingleWidthIntegerMultiplyAdd(IntegerArithmeticIns):
 
 
 class WideningIntegerMultiplyAdd(IntegerArithmeticIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.random_v_reg = random.randint(0, 31)
         self.des = f"v{self.random_v_reg}"
