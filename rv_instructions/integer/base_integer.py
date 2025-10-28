@@ -4,8 +4,8 @@ from rv_instructions.base_instruction import BaseInstruction
 
 
 class BaseIntegerIns(BaseInstruction, ABC):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.des = ""
         self.src1 = ""

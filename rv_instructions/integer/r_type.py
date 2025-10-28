@@ -5,8 +5,8 @@ from rv_instructions.integer.base_integer import BaseIntegerIns
 
 
 class RTypeIns(BaseIntegerIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         self.des = f"x{random.randint(0, 31)}"
         self.src1 = f"x{random.randint(0, 31)}"

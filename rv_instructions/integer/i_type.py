@@ -4,8 +4,8 @@ from rv_instructions.integer.base_integer import BaseIntegerIns
 
 
 class ITypeIns(BaseIntegerIns):
-    def __init__(self, name: str):
-        super().__init__(name)
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
         if name != "ecall":
             self.des = f"x{random.randint(0, 31)}"

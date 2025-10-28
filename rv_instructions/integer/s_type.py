@@ -4,11 +4,11 @@ from rv_instructions.integer.base_integer import BaseIntegerIns
 
 
 class STypeIns(BaseIntegerIns):
-    def __init__(self, name: str):
+    def __init__(self, name: str, index: int):
         # sb/sh/sw x12, 14000(x26)
         # name rs2, offset(rs1)
         # rs3 <=> offset
-        super().__init__(name)
+        super().__init__(name, index)
 
         self.src1 = f"x{random.randint(0, 31)}"
         self.src2 = f"x{random.randint(0, 31)}"
