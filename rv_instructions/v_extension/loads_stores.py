@@ -1,7 +1,5 @@
 import random
-from operator import truediv
 
-import types.vector_info
 from rv_instructions.v_extension.base_vector import LoadsStores
 
 
@@ -67,7 +65,7 @@ class UnitStrideFaultOnlyFirstLoads(LoadsStores):
         return ins
 
 
-class LoadStoreSegment(LoadsStores):
+class UnitStrideSegment(LoadsStores):
     def __init__(self, name: str, index: int):
         super().__init__(name, index)
 
@@ -76,18 +74,7 @@ class LoadStoreSegment(LoadsStores):
         self.eew = f"{random.choice([8, 16, 32])}"
 
     def generate(self) -> str:
-        # vlseg<nf>e<eew>.v vd, (rs1), vm (Unit-stride segment load template)
-        # vsseg<nf>e<eew>.v vs3, (rs1), vm  (Unit-stride segment store template)
-        # vlseg<nf>e<eew>ff.v vd, (rs1), vm  (Unit-stride fault-only-first segment loads)
-
-        # vlsseg<nf>e<eew>.v vd, (rs1), rs2, vm (Strided segment loads)
-        # vssseg<nf>e<eew>.v vs3, (rs1), rs2, vm  (Strided segment stores)
-
-        # vluxseg<nf>ei<eew>.v vd, (rs1), vs2, vm (Indexed-unordered segment loads)
-        # vloxseg<nf>ei<eew>.v vd, (rs1), vs2, vm  (Indexed-ordered segment loads)
-        # vsuxseg<nf>ei<eew>.v vs3, (rs1), vs2, vm  (Indexed-unordered segment stores)
-        # vsoxseg<nf>ei<eew>.v vs3, (rs1), vs2, vm  (Indexed-ordered segment stores)
-
+        return ""
         ins: str = ""
         is_ff: bool = random.choice([True, False])
 
@@ -112,7 +99,23 @@ class LoadStoreSegment(LoadsStores):
         return ins
 
 
-class LoadStoreWholeRegister(LoadsStores):
+class StridedSegment(LoadsStores):
+    def __init__(self, name: str, index: int) -> None:
+        super().__init__(name, index)
+
+    def generate(self) -> str:
+        return ""
+
+
+class IndexedSegment(LoadsStores):
+    def __init__(self, name: str, index: int) -> None:
+        super().__init__(name, index)
+
+    def generate(self) -> str:
+        return ""
+
+
+class WholeRegister(LoadsStores):
     def __init__(self, name: str, index: int):
         super().__init__(name, index)
 
