@@ -5,58 +5,12 @@ from rv_instructions.v_extension.base_vector import IntegerArithmeticIns
 
 
 class SingleWidthIntegerAddSub(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
+    def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
 
 
-class BitwiseLogical(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
-        super().__init__(name, index)
-
-
-class SingleWidthShift(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
-        super().__init__(name, index)
-        if name[len(name) - 1] == "i":
-            self.src1 = f"{random.randint(0, 31)}"
-
-
-class IntegerCompare(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
-        super().__init__(name, index)
-
-
-class MinMax(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
-        super().__init__(name, index)
-
-
-class IntegerMerge(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
-        super().__init__(name, index)
-
-        len_of_name: int = len(name)
-        self.src1 = utils.random_value.random_src1(name[len_of_name - 2], -16, 15)
-
-    def generate(self) -> str:
-        if self.des == "v0":
-            self.des = f"v{random.randint(1, 31)}"
-        return f"{self.name} {self.des}, {self.src2}, {self.src1}, v0"
-
-
-class IntegerMove(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
-        super().__init__(name, index)
-
-        len_of_name: int = len(name)
-        self.src1 = utils.random_value.random_src1(name[len_of_name - 1], -16, 15)
-
-    def generate(self) -> str:
-        return f"{self.name} {self.des}, {self.src1}"
-
-
-class WideningIntegerAddSubtract(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
+class WideningIntegerAddSub(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
 
         self.random_v_reg = random.randint(0, 31)
@@ -75,8 +29,8 @@ class WideningIntegerAddSubtract(IntegerArithmeticIns):
         return instruction
 
 
-class VectorIntegerExtension(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
+class IntegerExtension(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
 
     def generate(self) -> str:
@@ -90,8 +44,25 @@ class VectorIntegerExtension(IntegerArithmeticIns):
         return ins
 
 
+class IntegerAddWCarrySubWBorrow(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int) -> None:
+        super().__init__(name, index)
+
+
+class BitwiseLogical(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int) -> None:
+        super().__init__(name, index)
+
+
+class SingleWidthShift(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int) -> None:
+        super().__init__(name, index)
+        if name[len(name) - 1] == "i":
+            self.src1 = f"{random.randint(0, 31)}"
+
+
 class NarrowingIntegerRightShift(IntegerArithmeticIns):
-    def __init__(self, name: str, index: int):
+    def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
         self.src1 = utils.random_value.random_src1(name[len(name) - 1], 0, 31)
 
@@ -104,6 +75,16 @@ class NarrowingIntegerRightShift(IntegerArithmeticIns):
 
         ins = f"{self.name} {self.des}, {self.src2}, {self.src1}" + ins
         return ins
+
+
+class IntegerCompare(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
+
+
+class IntegerMinMax(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
 
 
 class SingleWidthIntegerMultiply(IntegerArithmeticIns):
@@ -169,3 +150,27 @@ class WideningIntegerMultiplyAdd(IntegerArithmeticIns):
 
         instruction = f"{self.name} {self.des}, {self.src1}, {self.src2}" + instruction
         return instruction
+
+
+class IntegerMerge(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
+
+        len_of_name: int = len(name)
+        self.src1 = utils.random_value.random_src1(name[len_of_name - 2], -16, 15)
+
+    def generate(self) -> str:
+        if self.des == "v0":
+            self.des = f"v{random.randint(1, 31)}"
+        return f"{self.name} {self.des}, {self.src2}, {self.src1}, v0"
+
+
+class IntegerMove(IntegerArithmeticIns):
+    def __init__(self, name: str, index: int):
+        super().__init__(name, index)
+
+        len_of_name: int = len(name)
+        self.src1 = utils.random_value.random_src1(name[len_of_name - 1], -16, 15)
+
+    def generate(self) -> str:
+        return f"{self.name} {self.des}, {self.src1}"
