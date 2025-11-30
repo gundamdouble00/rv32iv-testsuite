@@ -1,22 +1,21 @@
 import random
-from operator import length_hint
 
 import config
-from rv_instructions.integer.b_type import BTypeIns
-from types.integer_info import r_type, i_instructions
-from types.riscv_infor import class_of_instructions, ins_of_type
 
 rate_of_ins = {}
 
 
 class Program:
     def __init__(self):
-        self.instructions = []
-        self.fitness_score = float(-1)
-        self.count_riscv_ins = {}
+        self.data_processing = []
+        self.control_flow = []
+        self.union = []
+
+        self.fitness = float(-1)
+        self.count_ins = {}
 
         for key in config.RV32.keys():
-            self.count_riscv_ins[key] = 0
+            self.count_ins[key] = 0
 
     def __len__(self):
         return len(self.instructions)

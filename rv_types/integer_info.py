@@ -9,7 +9,18 @@ x_registers = []
 for i in range(0, 32):
     x_registers.append(f"x{i}")
 
-r_type = ["add", "sub", "sll", "slt", "sltu", "xor", "srl", "sra", "or", "and"]
+r_type = [
+    "add",
+    "sub",
+    "sll",
+    "slt",
+    "sltu",
+    "xor",
+    "srl",
+    "sra",
+    "or",
+    "and",
+]
 
 i_type = [
     "addi",
@@ -27,16 +38,32 @@ i_type = [
     "lbu",
     "lhu",
     "jalr",
-    "ecall",
+    # "ecall",
 ]
 
-s_type = ["sb", "sh", "sw"]
+s_type = [
+    "sb",
+    "sh",
+    "sw",
+]
 
-u_type = ["lui", "auipc"]
+u_type = [
+    "lui",
+    "auipc",
+]
 
-b_type = ["beq", "bne", "blt", "bge", "bltu", "bgeu"]
+b_type = [
+    "beq",
+    "bne",
+    "blt",
+    "bge",
+    "bltu",
+    "bgeu",
+]
 
-j_type = ["jal"]
+j_type = [
+    "jal",
+]
 
 i_instructions = r_type + i_type + s_type + u_type + b_type + j_type
 

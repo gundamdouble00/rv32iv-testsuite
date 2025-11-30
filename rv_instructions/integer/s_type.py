@@ -1,20 +1,30 @@
 import random
 
+from config import MEM_REGION
 from rv_instructions.integer.base_integer import BaseIntegerIns
+from rv_types.riscv_infor import type_of_ins
 
 
 class STypeIns(BaseIntegerIns):
-    def __init__(self, name: str, index: int):
-        # sb/sh/sw x12, 14000(x26)
-        # name rs2, offset(rs1)
-        # rs3 <=> offset
+    def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
 
-        self.src1 = f"x{random.randint(0, 31)}"
+        # sb rs2, offset(rs1)
+        self.src1 = "x21"
         self.src2 = f"x{random.randint(0, 31)}"
-        self.src3 = f"{random.randint(-2048, 2047)}"
 
-        self.type = "i_s_type"
+        if self.name == "sb":
+            key, step= "byte", 0
+        elif self.name == "sh":
+            key, step = "half", 2
+        else:
+            key, step = "word", 4
+
+        last_addr: int = MEM_REGION[key]["numbers"] * MEM_REGION[key]["bits"]
+        self.src3 = f"{random.randrange(0, last_addr + 1, step)}"
+
+        class_name: str = STypeIns.__name__
+        self.type = type_of_ins[class_name]
 
     def generate(self) -> str:
         # name rs2, offset(rs1)

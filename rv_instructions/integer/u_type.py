@@ -1,19 +1,21 @@
 import random
 
 from rv_instructions.integer.base_integer import BaseIntegerIns
+from rv_types.registers import ACTIVE_REG
+from rv_types.riscv_infor import type_of_ins
 
 
 class UTypeIns(BaseIntegerIns):
-    def __init__(self, name: str, index: int):
+    def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
 
         # lui/auipc rd, imm
-        self.des = f"x{random.randint(0, 31)}"
+        self.des = f"{random.choice(ACTIVE_REG)}"
         self.src3 = f"{random.randint(0, 1048575)}"
 
-        self.type = "i_u_type"
+        class_name: str = UTypeIns.__name__
+        self.type = type_of_ins[class_name]
 
     def generate(self) -> str:
-        # auipc rd, imm
-        # lui rd, imm
+        # lui/auipc rd, imm
         return f"{self.name} {self.des}, {self.src3}"

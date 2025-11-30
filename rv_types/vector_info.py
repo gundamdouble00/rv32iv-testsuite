@@ -366,7 +366,6 @@ unit_stride_fault_only_first_loads = [
     "vle8ff.v",
     "vle16ff.v",
     "vle32ff.v",
-    "vle64ff.v",
 ]
 class_and_list(
     unit_stride_fault_only_first_loads, UnitStrideFaultOnlyFirstLoads, LOADS_STORES

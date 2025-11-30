@@ -14,7 +14,7 @@ from rv_types.vector_info import (
     integer_compare,
     integer_merge,
     integer_move,
-    min_max,
+    integer_min_max,
     single_width_integer_add_sub,
     single_width_shift,
     v_instructions,
@@ -34,7 +34,7 @@ ins_of_type = {
     "v_bitwise_logical": bitwise_logical,
     "v_single_width_shift": single_width_shift,
     "v_integer_compare": integer_compare,
-    "v_min_max": min_max,
+    "v_min_max": integer_min_max,
     "v_integer_merge": integer_merge,
     "v_integer_move": integer_move,
 }
