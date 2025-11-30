@@ -39,9 +39,9 @@ class LoadsStores(BaseVectorIns):
     def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
 
-        self.des = f"v{random.randint(0, 31)}"
-        self.src2 = f"v{random.randint(0, 31)}"
-        self.src1 = f"x{random.randint(0, 31)}"
+        self.des = ""
+        self.src2 = ""
+        self.src1 = ""
         self.mask = random.choice([True, False])
 
     def generate(self) -> str:

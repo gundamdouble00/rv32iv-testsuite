@@ -8,17 +8,21 @@ MEM_REGION = {
     # numbers: Number of memory entries of each width
     "byte": {
         "bits": 8,
-        "numbers": 120,
+        "numbers": 32,
     },
     "half": {
         "bits": 16,
-        "numbers": 140,
+        "numbers": 96,
     },
     "word": {
         "bits": 32,
-        "numbers": 260,
+        "numbers": 64,
     },
 }
+
+SAVED_STORE: int = 0
+for key in MEM_REGION.keys():
+    SAVED_STORE = max(SAVED_STORE, MEM_REGION[key]["numbers"])
 
 INTEGER_INS: bool = True
 VECTOR_INS: bool = False
@@ -67,8 +71,8 @@ RV32 = {
 
 PROGRAM_LEN: int = 0
 for key, value in RV32.items():
-    # key: i_r_type
-    # key: v_ia_single_width_integer_add_sub
+    # ex: key == i_r_type
+    # ex: key == v_ia_single_width_integer_add_sub
     if key[0] == "i" and (not INTEGER_INS):
         continue
     if key[0] == "v" and (not VECTOR_INS):
