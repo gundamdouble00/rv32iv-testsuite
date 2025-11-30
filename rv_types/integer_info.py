@@ -6,8 +6,17 @@ from rv_instructions.integer.s_type import STypeIns
 from rv_instructions.integer.u_type import UTypeIns
 
 x_registers = []
+class_of_integer = {}
+i_instructions: list[str] = []
+
 for i in range(0, 32):
     x_registers.append(f"x{i}")
+
+def class_and_list(i_ins: list[str], class_of_ins) -> None:
+    for instruction in i_ins:
+        class_of_integer[instruction] = class_of_ins
+
+    i_instructions.extend(i_ins)
 
 r_type = [
     "add",
@@ -21,6 +30,7 @@ r_type = [
     "or",
     "and",
 ]
+class_and_list(r_type, RTypeIns)
 
 i_type = [
     "addi",
@@ -40,17 +50,20 @@ i_type = [
     "jalr",
     # "ecall",
 ]
+class_and_list(i_type, ITypeIns)
 
 s_type = [
     "sb",
     "sh",
     "sw",
 ]
+class_and_list(s_type, STypeIns)
 
 u_type = [
     "lui",
     "auipc",
 ]
+class_and_list(u_type, UTypeIns)
 
 b_type = [
     "beq",
@@ -60,55 +73,10 @@ b_type = [
     "bltu",
     "bgeu",
 ]
+class_and_list(b_type, BTypeIns)
 
 j_type = [
     "jal",
 ]
+class_and_list(j_type, JTypeIns)
 
-i_instructions = r_type + i_type + s_type + u_type + b_type + j_type
-
-class_of_i_instr = {
-    "add": RTypeIns,
-    "sub": RTypeIns,
-    "sll": RTypeIns,
-    "slt": RTypeIns,
-    "sltu": RTypeIns,
-    "xor": RTypeIns,
-    "srl": RTypeIns,
-    "sra": RTypeIns,
-    "or": RTypeIns,
-    "and": RTypeIns,
-    #
-    "addi": ITypeIns,
-    "slti": ITypeIns,
-    "sltiu": ITypeIns,
-    "xori": ITypeIns,
-    "ori": ITypeIns,
-    "andi": ITypeIns,
-    "slli": ITypeIns,
-    "srli": ITypeIns,
-    "srai": ITypeIns,
-    "lb": ITypeIns,
-    "lh": ITypeIns,
-    "lw": ITypeIns,
-    "lbu": ITypeIns,
-    "lhu": ITypeIns,
-    "jalr": ITypeIns,
-    "ecall": ITypeIns,
-    #
-    "sb": STypeIns,
-    "sh": STypeIns,
-    "sw": STypeIns,
-    #
-    "lui": UTypeIns,
-    "auipc": UTypeIns,
-    #
-    "beq": BTypeIns,
-    "bne": BTypeIns,
-    "blt": BTypeIns,
-    "bge": BTypeIns,
-    "bltu": BTypeIns,
-    "bgeu": BTypeIns,
-    #
-    "jal": JTypeIns,
-}
