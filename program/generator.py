@@ -6,27 +6,41 @@ rate_of_ins = {}
 
 
 class Program:
-    def __init__(self):
+    def __init__(self) -> None:
         self.data_processing = []
         self.control_flow = []
         self.union = []
 
-        self.fitness = float(-1)
+        self.fitness = -1.00
         self.count_ins = {}
+        self.lmul = -1
+        self.sew = -1
+
+        self.program = []
 
         for key in config.RV32.keys():
             self.count_ins[key] = 0
 
-    def __len__(self):
-        return len(self.instructions)
+    def __len__(self) -> int:
+        return len(self.data_processing) + len(self.control_flow) + len(self.union)
 
-    def update_count_riscv(self):
-        for ins in self.instructions:
-            self.count_riscv_ins[ins.type] += 1
+    def update_count_riscv(self) -> None:
+        for key in config.RV32.keys():
+            self.count_ins[key] = 0
+        for ins in self.data_processing:
+            self.count_ins[ins.type] += 1
+        for ins in self.control_flow:
+            self.count_ins[ins.type] += 1
+        for ins in self.union:
+            self.count_ins[ins.type] += 1
 
     def to_assembly(self):
         assembly_program: list[str] = []
-        for rv_ins in self.instructions:
+        self.program.extend(self.data_processing)
+        self.program.extend(self.control_flow)
+        self.program.extend(self.union)
+
+        for rv_ins in self.program:
             assembly_program.append(rv_ins.generate())
 
         return assembly_program
