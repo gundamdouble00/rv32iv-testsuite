@@ -1,13 +1,19 @@
 import random
 from abc import ABC, abstractmethod
 
-import utils.random_value
 from rv_instructions.base_instruction import BaseInstruction
+from rv_types.registers import ACTIVE_REG
+
+
+def vector_reg(lmul: int) -> int:
+    return random.randrange(0, 32, lmul)
 
 
 class BaseVectorIns(BaseInstruction, ABC):
-    def __init__(self, name: str, index: int) -> None:
+    def __init__(self, name: str, index: int, lmul: int, sew: int) -> None:
         super().__init__(name, index)
+        self.lmul = lmul
+        self.sew = sew
 
     @abstractmethod
     def generate(self) -> str:
@@ -15,29 +21,25 @@ class BaseVectorIns(BaseInstruction, ABC):
 
 
 class IntegerArithmeticIns(BaseVectorIns):
-    def __init__(self, name: str, index: int) -> None:
-        super().__init__(name, index)
+    def __init__(self, name: str, index: int, lmul: int, sew: int) -> None:
+        super().__init__(name, index, lmul, sew)
 
-        self.des = utils.random_value.random_register("v")
-        self.src2 = utils.random_value.random_register("v")
-        self.src1 = utils.random_value.random_src1(name[len(name) - 1], -16, 15)
+        self.des = f"v{vector_reg(lmul)}"
+        self.src2 = f"v{vector_reg(lmul)}"
+        self.src1 = ""
         self.mask = random.choice([True, False])
 
     def generate(self) -> str:
-        # instruction: str = ""
-        # if self.mask:
-        #     instruction = ", v0.t"
-        #     if self.name not in types.vector_info.integer_compare and self.des == "v0":
-        #         self.des = f"v{random.randint(1, 31)}"
-
-        # instruction = f"{self.name} {self.des}, {self.src2}, {self.src1}" + instruction
-        # return instruction
-        return ""
+        ins: str = ""
+        if self.mask:
+            ins = ", v0.t"
+        ins = f"{self.name} {self.des}, {self.src2}, {self.src1}" + ins
+        return ins
 
 
 class LoadsStores(BaseVectorIns):
-    def __init__(self, name: str, index: int) -> None:
-        super().__init__(name, index)
+    def __init__(self, name: str, index: int, lmul: int, sew: int) -> None:
+        super().__init__(name, index, lmul, sew)
 
         self.des = ""
         self.src2 = ""
@@ -55,14 +57,19 @@ v_mask: list[str] = ["ma", "mu"]
 
 
 class ConfigurationSetting(BaseVectorIns):
-    def __init__(self, name: str, index: int) -> None:
-        super().__init__(name, index)
+    def __init__(self, name: str, index: int, lmul: int, sew: int) -> None:
+        # vsetvl t0, a3, x0
+        # vsetvli t0, a3, e32, m1, ta, ma
+        # vsetivli t0, 12, e32, m1, ta, ma
 
-        self.des = f"x{random.randint(0, 31)}"
+        super().__init__(name, index, lmul, sew)
+
+        self.des = f"{random.choice(ACTIVE_REG)}"
         if len(name) <= 7:
-            # name == vsetvl
-            self.src1 = f"x{random.randint(0, 31)}"
+            # vsetvl, vsetvli
+            self.src1 = f"{random.choice(ACTIVE_REG)}"
         else:
+            # vsetivli
             self.src1 = f"{random.randint(0, 31)}"
 
         vtype: list[str] = []
@@ -73,8 +80,7 @@ class ConfigurationSetting(BaseVectorIns):
 
         if len(name) == 6:
             # name == vsetvl
-            # src3 = register x
-            vtype.append(f"x{random.randint(0, 31)}")
+            vtype.append("x0")
         else:
             vtype.append(sew)
             vtype.append(lmul)
