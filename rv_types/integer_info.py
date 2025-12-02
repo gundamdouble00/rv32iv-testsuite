@@ -12,11 +12,13 @@ i_instructions: list[str] = []
 for i in range(0, 32):
     x_registers.append(f"x{i}")
 
+
 def class_and_list(i_ins: list[str], class_of_ins) -> None:
     for instruction in i_ins:
         class_of_integer[instruction] = class_of_ins
 
     i_instructions.extend(i_ins)
+
 
 r_type = [
     "add",
@@ -79,4 +81,3 @@ j_type = [
     "jal",
 ]
 class_and_list(j_type, JTypeIns)
-
