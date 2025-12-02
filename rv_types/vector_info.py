@@ -106,8 +106,8 @@ integer_extension = [
     "vsext.vf2",
     "vzext.vf4",
     "vsext.vf4",
-    "vzext.vf8",
-    "vsext.vf8",
+    # "vzext.vf8",
+    # "vsext.vf8",
 ]
 class_and_list(integer_extension, IntegerExtension, INTEGER_ARITHMETIC)
 #
