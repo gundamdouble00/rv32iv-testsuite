@@ -11,10 +11,6 @@ def random_register(register: str) -> str:
     return ""
 
 
-def random_immediate(begin: int, end: int) -> int:
-    return random.randint(begin, end)
-
-
 def random_src1(type_of_src1: str, left: int, right: int) -> str:
     num: int = random.randint(0, 31)
 
@@ -23,6 +19,6 @@ def random_src1(type_of_src1: str, left: int, right: int) -> str:
     elif type_of_src1 == "x":
         src1 = f"x{num}"
     else:
-        src1 = f"{random_immediate(left, right)}"
+        src1 = f"{random.randint(left, right)}"
 
     return src1
