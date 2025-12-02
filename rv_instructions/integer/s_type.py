@@ -14,7 +14,7 @@ class STypeIns(BaseIntegerIns):
         self.src2 = f"x{random.randint(0, 31)}"
 
         if self.name == "sb":
-            key, step= "byte", 0
+            key, step = "byte", 0
         elif self.name == "sh":
             key, step = "half", 2
         else:
