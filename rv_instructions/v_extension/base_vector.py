@@ -13,10 +13,8 @@ def vector_reg(lmul: float) -> int:
 
 
 class BaseVectorIns(BaseInstruction, ABC):
-    def __init__(self, name: str, index: int, lmul: float, sew: int) -> None:
+    def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
-        self.lmul = lmul
-        self.sew = sew
 
     @abstractmethod
     def generate(self) -> str:
@@ -30,12 +28,12 @@ v_mask: list[str] = ["ma", "mu"]
 
 
 class ConfigurationSetting(BaseVectorIns):
-    def __init__(self, name: str, index: int, lmul: float, sew: int) -> None:
+    def __init__(self, name: str, index: int) -> None:
         # vsetvl t0, a3, x0
         # vsetvli t0, a3, e32, m1, ta, ma
         # vsetivli t0, 12, e32, m1, ta, ma
 
-        super().__init__(name, index, lmul, sew)
+        super().__init__(name, index)
         self.des = ""
         self.src1 = ""
         self.src2 = ""
@@ -86,11 +84,17 @@ class ConfigurationSetting(BaseVectorIns):
 
 class LoadsStores(BaseVectorIns):
     def __init__(self, name: str, index: int, lmul: float, sew: int) -> None:
-        super().__init__(name, index, lmul, sew)
+        if lmul < sew / 32:
+            raise ValueError("lmul must be smaller than sew/elen (elen = 32)")
+
+        super().__init__(name, index)
 
         self.des = ""
+        self.src3 = ""
         self.src2 = ""
         self.src1 = ""
+        self.sew = sew
+        self.lmul = lmul
         self.mask = random.choice([True, False])
 
     def generate(self) -> str:
@@ -99,11 +103,16 @@ class LoadsStores(BaseVectorIns):
 
 class IntegerArithmeticIns(BaseVectorIns):
     def __init__(self, name: str, index: int, lmul: float, sew: int) -> None:
-        super().__init__(name, index, lmul, sew)
+        if lmul < sew / 32:
+            raise ValueError("lmul must be smaller than sew/elen (elen = 32)")
+
+        super().__init__(name, index)
 
         self.des = f"v{vector_reg(lmul)}"
         self.src2 = f"v{vector_reg(lmul)}"
         self.src1 = ""
+        self.sew = sew
+        self.lmul = lmul
         self.mask = random.choice([True, False])
 
     def generate(self) -> str:
