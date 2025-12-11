@@ -26,6 +26,16 @@ v_lmul: list[float] = [1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8]
 v_tail: list[str] = ["ta", "tu"]
 v_mask: list[str] = ["ma", "mu"]
 
+LMUL_STRING = {
+    1 / 8: "mf8",
+    1 / 4: "mf4",
+    1 / 2: "mf2",
+    1: "m1",
+    2: "m2",
+    4: "m4",
+    8: "m8",
+}
+
 
 class ConfigurationSetting(BaseVectorIns):
     def __init__(self, name: str, index: int) -> None:
@@ -65,8 +75,8 @@ class ConfigurationSetting(BaseVectorIns):
         self.tail = random.choice(v_tail)
         self.mask = random.choice(v_mask)
 
-        vtype.append(f"{self.sew}")
-        vtype.append(f"{self.lmul}")
+        vtype.append(f"e{self.sew}")
+        vtype.append(f"{LMUL_STRING[self.lmul]}")
         vtype.append(self.tail)
         vtype.append(self.mask)
         self.src2 = vtype
