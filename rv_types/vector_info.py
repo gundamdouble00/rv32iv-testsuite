@@ -21,11 +21,11 @@ from rv_instructions.v_extension.loads_stores import (
     UnitStride,
     Strided,
     Indexed,
-    UnitStrideFaultOnlyFirstLoads,
-    UnitStrideSegment,
-    StridedSegment,
-    IndexedSegment,
-    WholeRegister,
+    # UnitStrideFaultOnlyFirstLoads,
+    # UnitStrideSegment,
+    # StridedSegment,
+    # IndexedSegment,
+    # WholeRegister,
 )
 
 v_registers = []
@@ -50,8 +50,8 @@ def class_and_list(v_ins: list[str], class_of_ins, ins_type: str) -> None:
         loads_stores.extend(v_ins)
 
 
-SEW = ["e8", "e16", "e32"]
-LMUL = ["mf8", "mf4", "mf2", "m1", "m2", "m4", "m8"]
+SEW: list[int] = [8, 16, 32]
+LMUL: list[float] = [1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8]
 TAIL = ["ta", "tu"]
 MASK = ["ma", "mu"]
 
@@ -239,7 +239,7 @@ single_width_integer_multiply = [
     "vmulhsu.vx",
 ]
 class_and_list(
-    single_width_integer_add_sub, SingleWidthIntegerMultiply, INTEGER_ARITHMETIC
+    single_width_integer_multiply, SingleWidthIntegerMultiply, INTEGER_ARITHMETIC
 )
 #
 integer_divide = [
@@ -299,7 +299,7 @@ widening_integer_multiply_add = [
     "vwmaccus.vx",
 ]
 class_and_list(
-    widening_integer_multiply, WideningIntegerMultiplyAdd, INTEGER_ARITHMETIC
+    widening_integer_multiply_add, WideningIntegerMultiplyAdd, INTEGER_ARITHMETIC
 )
 #
 integer_merge = [
@@ -329,6 +329,10 @@ unit_stride = [
     #
     "vlm.v",
     "vsm.v",
+    #
+    "vle8ff.v",
+    "vle16ff.v",
+    "vle32ff.v",
 ]
 class_and_list(unit_stride, UnitStride, LOADS_STORES)
 #
@@ -361,38 +365,27 @@ indexed = [
     "vsoxei32.v",
 ]
 class_and_list(indexed, Indexed, LOADS_STORES)
-#
-unit_stride_fault_only_first_loads = [
-    "vle8ff.v",
-    "vle16ff.v",
-    "vle32ff.v",
-]
-class_and_list(
-    unit_stride_fault_only_first_loads, UnitStrideFaultOnlyFirstLoads, LOADS_STORES
-)
-#
-unit_stride_segment = [
-    "vlseg",
-    "vsseg",
-]
-class_and_list(unit_stride_segment, UnitStrideSegment, LOADS_STORES)
-#
-strided_segment = [
-    "vlsseg",
-    "vssseg",
-]
-class_and_list(strided_segment, StridedSegment, LOADS_STORES)
-#
-indexed_segment = [
-    "vluxseg",
-    "vloxseg",
-    "vsuxseg",
-    "vsoxseg",
-]
-class_and_list(indexed_segment, IndexedSegment, LOADS_STORES)
-#
-whole_register = ["vl_re_.v", "vs_r.v"]
-class_and_list(whole_register, WholeRegister, LOADS_STORES)
+
+# unit_stride_segment = [
+#     "vlseg",
+#     "vsseg",
+# ]
+# class_and_list(unit_stride_segment, UnitStrideSegment, LOADS_STORES)
+# #
+# strided_segment = [
+#     "vlsseg",
+#     "vssseg",
+# ]
+# class_and_list(strided_segment, StridedSegment, LOADS_STORES)
+# #
+# indexed_segment = [
+#     "vluxseg",
+#     "vloxseg",
+#     "vsuxseg",
+#     "vsoxseg",
+# ]
+# class_and_list(indexed_segment, IndexedSegment, LOADS_STORES)
+
 
 # # # # # # # # # # # #
 v_instructions: list[str] = []

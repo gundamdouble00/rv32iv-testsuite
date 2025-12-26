@@ -1,0 +1,37 @@
+type_of_ins = {
+    #
+    "RTypeIns": "i_r_type",
+    "ITypeIns": "i_i_type",
+    "STypeIns": "i_s_type",
+    "BTypeIns": "i_b_type",
+    "UTypeIns": "i_u_type",
+    "JTypeIns": "i_j_type",
+    #
+    "ConfigurationSetting": "v_cfg_configuration_setting",
+    #
+    "SingleWidthIntegerAddSub": "v_ia_single_width_integer_add_sub",
+    "WideningIntegerAddSub": "v_ia_widening_integer_add_sub",
+    "IntegerExtension": "v_ia_integer_extension",
+    "IntegerAddWCarrySubWBorrow": "v_ia_integer_add_w_carry-sub_w_borrow",
+    "BitwiseLogical": "v_ia_bitwise_logical",
+    "SingleWidthShift": "v_ia_single_width_shift",
+    "NarrowingIntegerRightShift": "v_ia_narrowing_integer_right_shift",
+    "IntegerCompare": "v_ia_integer_compare",
+    "IntegerMinMax": "v_ia_integer_min_max",
+    "SingleWidthIntegerMultiply": "v_ia_single_width_integer_multiply",
+    "IntegerDivide": "v_ia_integer_divide",
+    "WideningIntegerMultiply": "v_ia_widening_integer_multiply",
+    "SingleWidthIntegerMultiplyAdd": "v_ia_single_width_integer_multiply_add",
+    "WideningIntegerMultiplyAdd": "v_ia_widening_integer_multiply_add",
+    "IntegerMerge": "v_ia_integer_merge",
+    "IntegerMove": "v_ia_integer_move",
+    #
+    "UnitStride": "v_ls_unit_stride",
+    "Strided": "v_ls_strided",
+    "Indexed": "v_ls_indexed",
+    "UnitStrideFaultOnlyFirstLoads": "v_ls_unit_stride_fault_only_first_loads",
+    "UnitStrideSegment": "v_ls_unit_stride_segment",
+    "StridedSegment": "v_ls_strided_segment",
+    "IndexedSegment": "v_ls_indexed_segment",
+    "WholeRegister": "v_ls_whole_register",
+}
