@@ -2,7 +2,7 @@ import random
 
 from config import MEM_REGION
 from rv_instructions.integer.base_integer import BaseIntegerIns
-from rv_types.riscv_infor import type_of_ins
+from rv_types.instruction_type import type_of_ins
 
 
 class STypeIns(BaseIntegerIns):
@@ -14,14 +14,14 @@ class STypeIns(BaseIntegerIns):
         self.src2 = f"x{random.randint(0, 31)}"
 
         if self.name == "sb":
-            key, step = "byte", 0
+            key, step = "byte", 1
         elif self.name == "sh":
             key, step = "half", 2
         else:
             key, step = "word", 4
 
         last_addr: int = MEM_REGION[key]["numbers"] * MEM_REGION[key]["bits"]
-        self.src3 = f"{random.randrange(0, last_addr + 1, step)}"
+        self.src3 = f"{random.randrange(0, min(2047, last_addr + 1), step)}"
 
         class_name: str = STypeIns.__name__
         self.type = type_of_ins[class_name]

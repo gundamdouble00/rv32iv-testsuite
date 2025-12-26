@@ -1,8 +1,28 @@
 import random
 
 from rv_instructions.integer.base_integer import BaseIntegerIns
+from rv_types.instruction_type import type_of_ins
 from rv_types.registers import ACTIVE_REG, MEM_REG, BYTE_DATA, HALF_DATA, WORD_DATA
 from config import MEM_REGION
+
+immediate_ins = [
+    "addi",
+    "slti",
+    "sltiu",
+    "xori",
+    "ori",
+    "andi",
+    "slli",
+    "srli",
+    "srai",
+    "lb",
+    "lh",
+    "lw",
+    "lbu",
+    "lhu",
+    # "jalr",
+    # "ecall",
+]
 
 
 class ITypeIns(BaseIntegerIns):
@@ -34,23 +54,34 @@ class ITypeIns(BaseIntegerIns):
     def _alu_ins(self):
         # addi rd, rs1, imm
         # andi rd, rs1, imm
+        step: int = 1
+        start: int = -2048
+        stop: int = 2048
+
+        if self.name in {"addi", "subi"}:
+            self.des = random.choice([self.des, "x22"])
+
         self.src1 = random.choice(ACTIVE_REG)
-        if self.name[0] in {"slli", "srli", "srai"}:
+        if self.des == "x22":
+            self.src1 = "x0"
+            start = -128
+            stop = 128
+            step = 4
+
+        if self.name in {"slli", "srli", "srai"}:
             imm = random.randint(0, 31)
         else:
-            imm = random.randint(-2048, 2047)
+            imm = random.randrange(start, stop, step)
         self.src3 = f"{imm}"
 
     def __init__(self, name: str, index: int) -> None:
         super().__init__(name, index)
         self.des = random.choice(ACTIVE_REG)
         class_name: str = ITypeIns.__name__
-        self.type = class_name
+        self.type = type_of_ins[class_name]
 
         if self.name == "jalr":
-            # jalr
-            self._jalr_ins()
-            return
+            self.name = random.choice(immediate_ins)
 
         if self.name[0] == "l":
             # lb, lbu, lh, lhu, lw
@@ -61,25 +92,9 @@ class ITypeIns(BaseIntegerIns):
         # slli, srli, srai
         self._alu_ins()
 
-        # if name != "ecall":
-        #     self.des = f"x{random.randint(0, 31)}"
-        #     self.src1 = f"x{random.randint(0, 31)}"
-        #     if name[0] == "s":
-        #         # immediate of slli, srli, srai
-        #         self.src2 = f"{random.randint(0, 31)}"
-        #     else:
-        #         # immediate of addi, slti, sltiu, xori, ori, andi, lb, lh, lw, lbu, lhu, jalr
-        #         self.src2 = f"{random.randint(-2048, 2047)}"
-
     def generate(self) -> str:
-        # if self.name == "ecall":
-        #     return "ecall"
-
         if self.name[0] in {"l", "j"}:
             # instruction rd, offset(rs1)
-            ins = f"{self.name} {self.des}, {self.src3}({self.src1})"
-        else:
-            # instruction rd, rs1, imm
-            ins = f"{self.name} {self.des}, {self.src1}, {self.src3}"
-
-        return ins
+            return f"{self.name} {self.des}, {self.src3}({self.src1})"
+        # instruction rd, rs1, imm
+        return f"{self.name} {self.des}, {self.src1}, {self.src3}"
