@@ -2,7 +2,23 @@ import random
 from abc import ABC, abstractmethod
 
 from rv_instructions.base_instruction import BaseInstruction
+from rv_types.instruction_type import type_of_ins
 from rv_types.registers import ACTIVE_REG
+
+v_sew: list[int] = [8, 16, 32]
+v_lmul: list[float] = [1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8]
+v_tail: list[str] = ["ta", "tu"]
+v_mask: list[str] = ["ma", "mu"]
+
+LMUL_STRING = {
+    1 / 8: "mf8",
+    1 / 4: "mf4",
+    1 / 2: "mf2",
+    1: "m1",
+    2: "m2",
+    4: "m4",
+    8: "m8",
+}
 
 
 def vector_reg(lmul: float) -> int:
@@ -21,36 +37,19 @@ class BaseVectorIns(BaseInstruction, ABC):
         pass
 
 
-v_sew: list[int] = [8, 16, 32]
-v_lmul: list[float] = [1 / 8, 1 / 4, 1 / 2, 1, 2, 4, 8]
-v_tail: list[str] = ["ta", "tu"]
-v_mask: list[str] = ["ma", "mu"]
-
-LMUL_STRING = {
-    1 / 8: "mf8",
-    1 / 4: "mf4",
-    1 / 2: "mf2",
-    1: "m1",
-    2: "m2",
-    4: "m4",
-    8: "m8",
-}
-
-
 class ConfigurationSetting(BaseVectorIns):
-    def __init__(self, name: str, index: int) -> None:
+    def __init__(self, name: str, index: int, lmul: float, sew: int) -> None:
         # vsetvl t0, a3, x0
         # vsetvli t0, a3, e32, m1, ta, ma
         # vsetivli t0, 12, e32, m1, ta, ma
-
         super().__init__(name, index)
+
         self.des = ""
         self.src1 = ""
         self.src2 = ""
-        self.sew = int(0)
-        self.lmul = float(0.0)
         self.tail = ""
         self.mask = ""
+        self.type = type_of_ins[ConfigurationSetting.__name__]
 
         self.des = random.choice(ACTIVE_REG)
         if len(name) <= 7:
@@ -62,34 +61,32 @@ class ConfigurationSetting(BaseVectorIns):
 
         if self.name == "vsetvl":
             self.src2 = "x0"
+            self.lmul = 1.0
+            self.sew = 8
+            self.tail = "tu"
+            self.mask = "mu"
             return
 
-        vtype: list[str] = []
+        self.lmul = random.choice(v_lmul)
+        self.sew = random.choice(v_sew)
+        vtype: str = ""
         while True:
             # LMUL >= SEW/ELEN
             self.sew = random.choice(v_sew)
             self.lmul = random.choice(v_lmul)
             if self.lmul * 32 >= float(self.sew):
                 break
-
         self.tail = random.choice(v_tail)
         self.mask = random.choice(v_mask)
 
-        vtype.append(f"e{self.sew}")
-        vtype.append(f"{LMUL_STRING[self.lmul]}")
-        vtype.append(self.tail)
-        vtype.append(self.mask)
+        vtype += f"e{self.sew}, "
+        vtype += f"{LMUL_STRING[self.lmul]}, "
+        vtype += f"{self.tail}" + ", "
+        vtype += f"{self.mask}"
         self.src2 = vtype
 
     def generate(self) -> str:
-        ins = f"{self.name} {self.des}, {self.src1}, "
-        for i in range(len(self.src2)):
-            field = self.src2[i]
-            ins += field
-            if i < len(self.src2) - 1:
-                ins += ", "
-
-        return ins
+        return f"{self.name} {self.des}, {self.src1}, {self.src2}"
 
 
 class LoadsStores(BaseVectorIns):
